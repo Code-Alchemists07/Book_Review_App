@@ -1,0 +1,43 @@
+# Python cache and environment
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env/
+venv/
+.env.local
+.env.*.local
+
+# VSCode and IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Terraform secrets and state files
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
+
+# Log files
+*.log
+
+# Byte-compiled / optimized / DLL files
+*.pyd
+*.so
+*.dll
+
+# GitHub tokens or personal secrets
+*.pem
+*.key
+*.crt
+
+# Ignore test coverage and reports
+coverage/
+htmlcov/
+*.cover
+
+# Ignore upload cache
+uploads/
