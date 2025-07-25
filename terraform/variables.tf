@@ -1,31 +1,66 @@
-
-
 variable "location" {
   description = "Azure region to deploy resources in"
+  type        = string
   default     = "eastus"
 }
 
 variable "project" {
   description = "Short project name"
+  type        = string
   default     = "bookreview"
 }
 
 variable "environment" {
   description = "Environment tag (e.g., dev, prod)"
+  type        = string
   default     = "dev"
 }
 
 variable "app_service_plan_sku" {
   description = "App Service pricing tier"
+  type        = string
   default     = "S1"
 }
 
 variable "subscription_id" {
-  type        = string
   description = "Azure subscription ID"
+  type        = string
 }
 
 variable "tenant_id" {
-  type        = string
   description = "Azure tenant ID"
+  type        = string
+}
+
+variable "postgresql_admin_username" {
+  description = "Admin username for PostgreSQL"
+  type        = string
+  default     = "pgadmin"
+}
+
+variable "postgresql_admin_password" {
+  description = "Admin password for PostgreSQL"
+  type        = string
+  sensitive   = true
+}
+
+variable "github_repo_url" {
+  description = "URL of the GitHub repository for deployment"
+  type        = string
+}
+
+variable "github_branch" {
+  description = "Branch to deploy from"
+  type        = string
+  default     = "main"
+}
+
+variable "tags" {
+  description = "Common tags to apply to all resources"
+  type        = map(string)
+  default = {
+    project     = "BookReviewPlatform"
+    team        = "CodeAlchemists07"
+    environment = "dev"
+  }
 }

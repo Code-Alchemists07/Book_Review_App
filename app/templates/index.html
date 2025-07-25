@@ -55,7 +55,7 @@
         <div class="col-md-4 mb-4">
           <div class="card shadow-sm h-100">
             {% if book.cover %}
-              <img src="{{ url_for('static', filename='uploads/' + book.cover) }}" class="card-img-top" alt="Book Cover">
+              <img src="https://{{ storage_account_name }}.blob.core.windows.net/bookcovers/{{ book.cover }}" class="card-img-top" alt="Book Cover">
             {% endif %}
             <div class="card-body">
               <h5 class="card-title text-primary">{{ book.title }}</h5>
