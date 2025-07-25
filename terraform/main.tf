@@ -1,10 +1,3 @@
-provider "azurerm" {
-  features {}
-}
-
-variable "location" {
-  default = "East US"
-}
 
 variable "db_admin_username" {
   default = "dbadminuser"
