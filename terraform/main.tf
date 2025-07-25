@@ -41,7 +41,7 @@ resource "azurerm_postgresql_flexible_server" "db_flex" {
   administrator_password = var.db_admin_password
   version                = "13"
   storage_mb             = 32768
-  sku_name               = "B1ms"
+  sku_name               = "B_Standard_B1ms"
   zone                   = "1"
   public_network_access_enabled = true
   tags                     = var.tags
