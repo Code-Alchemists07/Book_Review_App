@@ -79,8 +79,9 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_all" {
 }
 
 locals {
-  postgres_connection_string = "host=${azurerm_postgresql_flexible_server.db_flex.fqdn} port=5432 dbname=${azurerm_postgresql_flexible_server_database.db.name} user=${var.db_admin_username}@${azurerm_postgresql_flexible_server.db_flex.name} password=${var.db_admin_password} sslmode=require"
+  postgres_connection_string = "host=${azurerm_postgresql_flexible_server.db_flex.fqdn} port=5432 dbname=${azurerm_postgresql_flexible_server_database.db.name} user=${var.db_admin_username} password=${var.db_admin_password} sslmode=require"
 }
+
 
 resource "azurerm_service_plan" "appserviceplan" {
   name                = "bookreview-plan"
