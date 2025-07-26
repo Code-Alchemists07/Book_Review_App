@@ -26,10 +26,20 @@ resource "azurerm_storage_account" "storage" {
   tags                     = var.tags
 }
 
+# Wait 60s after storage account creation
+resource "time_sleep" "wait_for_storage" {
+  depends_on      = [azurerm_storage_account.storage]
+  create_duration = "60s"
+}
+
 resource "azurerm_storage_container" "bookcovers" {
   name                  = "bookcovers"
   storage_account_id    = azurerm_storage_account.storage.id
   container_access_type = "blob"
+
+  depends_on = [
+    time_sleep.wait_for_storage
+  ]
 }
 
 resource "azurerm_postgresql_flexible_server" "db_flex" {
@@ -105,7 +115,7 @@ resource "azurerm_linux_web_app" "web" {
   depends_on = [
     azurerm_postgresql_flexible_server_database.db,
     azurerm_postgresql_flexible_server_firewall_rule.allow_all,
-    azurerm_storage_account.storage
+    azurerm_storage_container.bookcovers
   ]
 }
 
