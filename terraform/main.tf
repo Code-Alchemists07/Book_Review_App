@@ -119,8 +119,3 @@ resource "azurerm_linux_web_app" "web" {
   ]
 }
 
-resource "azurerm_app_service_source_control" "github" {
-  app_id   = azurerm_linux_web_app.web.id
-  repo_url = "https://github.com/Code-Alchemists07/Book_Review_App"
-  branch   = "main"
-}

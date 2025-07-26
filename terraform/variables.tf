@@ -55,6 +55,12 @@ variable "github_branch" {
   default     = "main"
 }
 
+# variable "github_token" {
+#   description = "GitHub Personal Access Token for source control"
+#   sensitive   = true
+# }
+
+
 variable "tags" {
   description = "Common tags to apply to all resources"
   type        = map(string)
