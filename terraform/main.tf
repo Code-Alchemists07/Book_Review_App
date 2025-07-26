@@ -1,4 +1,3 @@
-
 variable "db_admin_username" {
   default = "dbadminuser"
 }
@@ -44,7 +43,7 @@ resource "azurerm_postgresql_flexible_server" "db_flex" {
   sku_name               = "B_Standard_B1ms"
   zone                   = "1"
   public_network_access_enabled = true
-  tags                     = var.tags
+  tags                   = var.tags
 }
 
 resource "azurerm_postgresql_flexible_server_database" "db" {
@@ -52,6 +51,10 @@ resource "azurerm_postgresql_flexible_server_database" "db" {
   server_id = azurerm_postgresql_flexible_server.db_flex.id
   charset   = "UTF8"
   collation = "en_US.utf8"
+
+  depends_on = [
+    azurerm_postgresql_flexible_server.db_flex
+  ]
 }
 
 resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_all" {
@@ -59,6 +62,10 @@ resource "azurerm_postgresql_flexible_server_firewall_rule" "allow_all" {
   server_id        = azurerm_postgresql_flexible_server.db_flex.id
   start_ip_address = "0.0.0.0"
   end_ip_address   = "255.255.255.255"
+
+  depends_on = [
+    azurerm_postgresql_flexible_server.db_flex
+  ]
 }
 
 locals {
@@ -92,12 +99,18 @@ resource "azurerm_linux_web_app" "web" {
     STORAGE_KEY     = azurerm_storage_account.storage.primary_access_key
     PYTHON_VERSION  = "3.9"
   }
-  tags = var.tags
-}
 
+  tags = var.tags
+
+  depends_on = [
+    azurerm_postgresql_flexible_server_database.db,
+    azurerm_postgresql_flexible_server_firewall_rule.allow_all,
+    azurerm_storage_account.storage
+  ]
+}
 
 resource "azurerm_app_service_source_control" "github" {
   app_id   = azurerm_linux_web_app.web.id
-  repo_url = "https://github.com/YOUR_ORG/Book_Review_App"
+  repo_url = "https://github.com/Code-Alchemists07/Book_Review_App"
   branch   = "main"
 }
