@@ -99,7 +99,7 @@ resource "azurerm_linux_web_app" "web" {
 
   site_config {
     application_stack {
-      python_version = "3.9"
+      python_version = "3.12"
     }
   }
 
@@ -107,7 +107,7 @@ resource "azurerm_linux_web_app" "web" {
     DB_CONNECTION   = local.postgres_connection_string
     STORAGE_ACCOUNT = azurerm_storage_account.storage.name
     STORAGE_KEY     = azurerm_storage_account.storage.primary_access_key
-    PYTHON_VERSION  = "3.9"
+    PYTHON_VERSION  = "3.12"
   }
 
   tags = var.tags
