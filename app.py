@@ -48,8 +48,21 @@ except Exception as e:
     logging.error(f"Failed to connect to Blob Storage: {e}")
     raise
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def index():
+    try:
+        with conn.cursor() as cur:
+            cur.execute("SELECT title, review, cover FROM reviews ORDER BY id DESC")
+            rows = cur.fetchall()
+        reviews = [{"title": r[0], "review": r[1], "cover": r[2]} for r in rows]
+    except Exception as e:
+        logging.error(f"Error fetching reviews: {e}")
+        reviews = []
+
+    return render_template("index.html", reviews=reviews, storage_account_name=os.getenv("STORAGE_ACCOUNT"))
+
+@app.route("/add_review", methods=["GET", "POST"])
+def add_review():
     if request.method == "POST":
         title = request.form.get("title")
         review = request.form.get("review")
@@ -58,7 +71,6 @@ def index():
         cover_filename = None
         if file and file.filename:
             try:
-                # Generate unique filename to avoid overwrites
                 unique_filename = f"{uuid.uuid4()}_{file.filename}"
                 blob_client = container_client.get_blob_client(unique_filename)
                 blob_client.upload_blob(file, overwrite=True)
@@ -81,16 +93,8 @@ def index():
 
         return redirect("/")
 
-    try:
-        with conn.cursor() as cur:
-            cur.execute("SELECT title, review, cover FROM reviews ORDER BY id DESC")
-            rows = cur.fetchall()
-        reviews = [{"title": r[0], "review": r[1], "cover": r[2]} for r in rows]
-    except Exception as e:
-        logging.error(f"Error fetching reviews: {e}")
-        reviews = []
+    return render_template("add_review.html")
 
-    return render_template("index.html", reviews=reviews, storage_account_name=os.getenv("STORAGE_ACCOUNT"))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
