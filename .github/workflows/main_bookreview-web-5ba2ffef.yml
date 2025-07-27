@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - bookreview-web-67a5cf21
+name: Build and deploy Python app to Azure Web App - bookreview-web-5ba2ffef
 
 on:
   push:
@@ -58,14 +58,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1D934ECA4C0B48368CC23A727D2D69CE }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8FD94B2C118D4C4E98FF27AE240BF5C1 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_33C1597E7A4546CB95A025B10EC3D366 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_882ADD25D0D74F16B2E85C6500B01BA7 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_525CF783149245A499B3B5D214F8F39D }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F764E81AEB86432C88266A649C87FE3D }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'bookreview-web-67a5cf21'
+          app-name: 'bookreview-web-5ba2ffef'
           slot-name: 'Production'
           
