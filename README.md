@@ -1,6 +1,3 @@
-Here’s the **updated README.md** with a new step added for creating a `terraform.tfvars` file containing your values:
-
----
 
 # Book Review App
 
