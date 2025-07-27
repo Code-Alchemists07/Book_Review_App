@@ -1,11 +1,3 @@
-variable "db_admin_username" {
-  default = "dbadminuser"
-}
-
-variable "db_admin_password" {
-  description = "Database admin password"
-  sensitive   = true
-}
 
 resource "random_id" "rand" {
   byte_length = 4
@@ -92,6 +84,15 @@ resource "azurerm_service_plan" "appserviceplan" {
   tags                = var.tags
 }
 
+# Application Insights resource
+resource "azurerm_application_insights" "appinsights" {
+  name                = "bookreview-ai-${random_id.rand.hex}"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+  application_type    = "web"
+  tags                = var.tags
+}
+
 resource "azurerm_linux_web_app" "web" {
   name                = "bookreview-web-${random_id.rand.hex}"
   location            = azurerm_resource_group.main.location
@@ -111,14 +112,19 @@ resource "azurerm_linux_web_app" "web" {
     PYTHON_VERSION     = "3.12"
     "WEBSITES_PORT"    = "8000"
     "STARTUP_COMMAND"  = "gunicorn --workers 4 --bind=0.0.0.0:8000 app:app"
+    "APPINSIGHTS_INSTRUMENTATIONKEY"       = azurerm_application_insights.appinsights.instrumentation_key
+    "APPLICATIONINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.appinsights.connection_string
   }
+
+
 
   tags = var.tags
 
   depends_on = [
     azurerm_postgresql_flexible_server_database.db,
     azurerm_postgresql_flexible_server_firewall_rule.allow_all,
-    azurerm_storage_container.bookcovers
+    azurerm_storage_container.bookcovers,
+    azurerm_application_insights.appinsights
   ]
 }
 

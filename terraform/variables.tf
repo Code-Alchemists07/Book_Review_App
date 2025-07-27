@@ -32,17 +32,15 @@ variable "tenant_id" {
   type        = string
 }
 
-variable "postgresql_admin_username" {
-  description = "Admin username for PostgreSQL"
-  type        = string
-  default     = "pgadmin"
+variable "db_admin_username" {
+  default = "dbadminuser"
 }
 
-variable "postgresql_admin_password" {
-  description = "Admin password for PostgreSQL"
-  type        = string
+variable "db_admin_password" {
+  description = "Database admin password"
   sensitive   = true
 }
+
 
 variable "github_repo_url" {
   description = "URL of the GitHub repository for deployment"
