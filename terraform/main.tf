@@ -9,6 +9,7 @@ resource "azurerm_resource_group" "main" {
   tags     = var.tags
 }
 
+#add Storage Account 
 resource "azurerm_storage_account" "storage" {
   name                     = "bookreview${random_id.rand.hex}"
   resource_group_name      = azurerm_resource_group.main.name
