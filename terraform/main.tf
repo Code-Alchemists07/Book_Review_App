@@ -49,6 +49,7 @@ resource "azurerm_postgresql_flexible_server" "db_flex" {
   tags                   = var.tags
 }
 
+#add Database
 resource "azurerm_postgresql_flexible_server_database" "db" {
   name      = "bookreviews"
   server_id = azurerm_postgresql_flexible_server.db_flex.id
